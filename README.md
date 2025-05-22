@@ -10,10 +10,9 @@ A simple Go HTTP server that acts as a proxy for motion snapshots. The server li
 
 ## Prerequisites
 
-- Go 1.21 or later
-- The motion package, available from debian/alpine repositories
+- Video device (/dev/video0)
+- Go 1.21 or later and the motion package, available from debian/alpine repositories, unless you wanna use...
 - Docker and Docker Compose (for containerized deployment)
-- Video device (/dev/video0) for motion detection
 
 ## Configuration
 
