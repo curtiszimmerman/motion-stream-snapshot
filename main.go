@@ -37,7 +37,7 @@ func handleCurrent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Sleep for 500ms to allow motion to write the file
-	time.Sleep(500 * time.Millisecond)
+	time.Sleep(100 * time.Millisecond)
 
 	// Read the image file
 	imageData, err := os.ReadFile("/var/lib/motion/lastsnap.jpg")
