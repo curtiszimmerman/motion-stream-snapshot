@@ -1,3 +1,3 @@
-module golang-http-fileserver
+module motion-snapshot-server
 
 go 1.21 
