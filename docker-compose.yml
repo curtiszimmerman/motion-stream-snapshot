@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  fileserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.fileserver
+    ports:
+      - "8082:8082"
+    volumes:
+      - /var/lib/motion:/var/lib/motion:ro
+    environment:
+      - SNAPSHOT_URL=http://motion:8081/00000/action/snapshot
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  motion:
+    build:
+      context: .
+      dockerfile: Dockerfile.motion
+    image: motionproject/motion:latest
+    ports:
+      - "8081:8081"
+    volumes:
+      - /dev/video0:/dev/video0:ro
+      - /var/lib/motion:/var/lib/motion
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge 

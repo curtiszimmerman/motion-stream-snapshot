@@ -1,0 +1,22 @@
+FROM motionproject/motion:latest
+
+# Create motion configuration directory
+RUN mkdir -p /etc/motion
+
+# Copy custom motion configuration
+COPY motion.conf /etc/motion/motion.conf
+
+# Create directory for motion snapshots
+RUN mkdir -p /var/lib/motion
+
+# Set permissions for motion user
+RUN chown -R motion:motion /var/lib/motion /etc/motion
+
+# Switch to motion user
+USER motion
+
+# Expose motion web interface port
+EXPOSE 8081
+
+# Start motion with our custom configuration
+CMD ["motion", "-c", "/etc/motion/motion.conf"] 
