@@ -9,7 +9,7 @@ BINARY_NAME=motion-snapshot-server
 all: test build
 
 build:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_NAME) -v
+	CGO_ENABLED=0 GOOS=linux $(GOBUILD) -o $(BINARY_NAME) -v
 
 test:
 	$(GOTEST) -v ./...
