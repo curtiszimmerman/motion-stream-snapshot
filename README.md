@@ -1,6 +1,6 @@
 # motion stream and snapshot server
 
-A simple Go HTTP server that acts as a proxy for motion snapshots. The server listens for HTTP connections on port 8082 and serves the latest motion snapshot image. This project was made for use with Octoprint so that timelapse creation functions properly with the motion software. NOTE: The Octopi image is 32-bit and you WILL NOT be able to use the Docker container functionality! If you wish to use Docker, you will need to install a 64-bit version of your OS (e.g. Raspberry Pi OS 64-bit) instead of the 32-bit version, and then install Octoprint on top of that base install.
+A simple Go HTTP server that acts as a proxy for motion snapshots. The server listens for HTTP connections on port 8082 and serves the latest motion snapshot image. This project was made for use with Octoprint so that timelapse creation functions properly with the motion software if, for example, you have hardware that doesn't work with mjpg-streamer. NOTE: The default Octopi image is 32-bit and you WILL NOT be able to use the Docker container functionality! If you wish to use Docker, you will need to install the [64-bit version of OctoPi](https://unofficialpi.org/Distros/OctoPi/octopi-bookworm-arm64-lite-1.1.0.zip) or another 64-bit OS instead of the 32-bit version, and then install Octoprint on top of that base install.
 
 ## Features
 
@@ -33,35 +33,53 @@ Command-line flags take precedence over environment variables.
 
 ## Building and Running
 
-### Local Development
+### Local Deployment
 
-1. Clone the repository:
+1. (Optional) Use the provided installation script:
    ```bash
-   git clone <repository-url>
-   cd motion-stream-snapshot
+   ./install.sh
    ```
 
-2. Build the binary:
+... or, if you want to do things manually ...
+
+1. Ensure the motion application is installed and running:
+   ```bash
+   sudo apt-get install motion  # install motion from repo
+   motion -b                    # run motion in background (as daemon)
+   ```
+
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/curtiszimmerman/motion-stream-snapshot
+   cd motion-stream-snapshot
+   ```
+3. Build the binary:
    ```bash
    make build
    ```
-   This will create a binary named `motion-snapshot-server` in the current directory.
+   This will create a binary named `motion-snapshot-server` in the `bin/` directory.
 
-3. Clean build artifacts:
+4. Clean build artifacts:
    ```bash
    make clean
    ```
 
-4. Run the application:
+5. Run the application:
    ```bash
    # Using default settings
-   ./motion-snapshot-server
+   ./bin/motion-snapshot-server
 
    # Using command-line flags
-   ./motion-snapshot-server -p 8083 -h example.com -s 8080
+   ./bin/motion-snapshot-server -p 8083 -h example.com -s 8080
 
    # Using environment variables
-   SNAPSHOT_HOST=example.com SNAPSHOT_PORT=8080 ./motion-snapshot-server
+   SNAPSHOT_HOST=example.com SNAPSHOT_PORT=8080 ./bin/motion-snapshot-server
+   ```
+6. (Optional) Copy the systemd service file and enable the service to start services on next boot:
+   ```bash
+   sudo cp motion-snapshot.service /etc/systemd/system/
+   systemctl daemon-reload
+   systemctl enable motion-snapshot
    ```
 
 ### Docker Deployment

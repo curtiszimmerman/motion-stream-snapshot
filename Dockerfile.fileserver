@@ -10,18 +10,21 @@ COPY go.mod ./
 RUN go mod download
 
 # Copy source code
-COPY . .
+COPY src/ .
 
 # Tidy up dependencies
 RUN go mod tidy
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o motion-snapshot-server .
+RUN CGO_ENABLED=0 GOOS=linux go build -o motion-snapshot-server ./src/...
 
 # Final stage
 FROM alpine:latest
 
 WORKDIR /app
+
+# Copy the binary from builder
+COPY --from=builder /app/motion-snapshot-server .
 
 # Expose port 8082
 EXPOSE 8082

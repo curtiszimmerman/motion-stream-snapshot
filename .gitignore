@@ -17,5 +17,5 @@ go.work
 *.swp
 *.swo 
 
-# default binary
-motion-snapshot-server
+# default binary directory contents
+bin/*

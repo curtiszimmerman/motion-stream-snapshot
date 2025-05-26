@@ -1,0 +1,16 @@
+[Unit]
+Description=Motion and Snapshot Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStartPre=/usr/bin/motion -b
+ExecStart=/usr/bin/motion-snapshot-server -d
+ExecStop=/usr/bin/pkill motion-snapshot-server
+ExecStopPost=/usr/bin/pkill motion
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target 
