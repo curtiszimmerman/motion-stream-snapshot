@@ -77,6 +77,7 @@ Command-line flags take precedence over environment variables.
    ```
 6. (Optional) Copy the systemd service file and enable the service to start services on next boot:
    ```bash
+   sudo cp bin/motion-snapshot-server /usr/bin/
    sudo cp motion-snapshot.service /etc/systemd/system/
    systemctl daemon-reload
    systemctl enable motion-snapshot
@@ -97,6 +98,13 @@ Command-line flags take precedence over environment variables.
 3. View logs:
    ```bash
    docker-compose logs -f
+   ```
+
+## Uninstalling
+
+1. Use the installation script to uninstall:
+   ```bash
+   sudo ./install.sh --uninstall
    ```
 
 ## Usage
